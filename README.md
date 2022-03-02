@@ -85,13 +85,17 @@ surge_obj.fit(G=G, Y=Y, cov=cov)
 
 
 **1. K**
+    
     K is an integer that specifies the initial number of latent contexts. SURGE performs model selection by removing irrelevent contexts during optimization. This only works if K is set to be larger than the number of underlying latent contexts. In practice, setting `K=20` is a reasonable size. If SURGE converges, and all 20 latent contexts have PVE >= 1e-4, try setting K to be larger.
 
 **2. max_iter**
-    Maximum number of iterations to perform in variational optimization. Setting `max_iter=3000` is our recommendation.
+    
+   Maximum number of iterations to perform in variational optimization. Setting `max_iter=3000` is our recommendation.
 
 **3. delta_elbo_threshold**
-    This is the threshold used to assess model convergence. If the change in elbo from the previous iteration to the current iteration is less than delta_elbo_threshold, then SURGE converges. In practice, we found `delta_elbo_threshold=1e-2` works well in most situations. However, there is a natural give and take here. A smaller delta_elbo_threshold will give more accurate approximations, but it will take longer to converge. Whereas, a larger delta_elbo_threshold will give less accurate approximations, but it will converge faster.
+    
+   This is the threshold used to assess model convergence. If the change in elbo from the previous iteration to the current iteration is less than delta_elbo_threshold, then SURGE converges. In practice, we found `delta_elbo_threshold=1e-2` works well in most situations. However, there is a natural give and take here. A smaller delta_elbo_threshold will give more accurate approximations, but it will take longer to converge. Whereas, a larger delta_elbo_threshold will give less accurate approximations, but it will converge faster.
 
 **4. re_boolean**
-    This is the boolean indicator dictating whether to model the effects of sample repeat structure with a random effects intercept. Set `re_boolean=True` if you wish to model sample repeat structure, or set `re_boolean=False` if you wish to ignore sample repeat structure. If you set `re_boolean=True` you must include the sample repeat array (z; see above).
+   
+   This is the boolean indicator dictating whether to model the effects of sample repeat structure with a random effects intercept. Set `re_boolean=True` if you wish to model sample repeat structure, or set `re_boolean=False` if you wish to ignore sample repeat structure. If you set `re_boolean=True` you must include the sample repeat array (z; see above).
