@@ -56,15 +56,13 @@ surge_obj.fit(G=G, Y=Y, cov=cov)
 
 ### Input data:
 
-1. Selecting independent variant-gene pairs for model training
+**1. Selecting independent variant-gene pairs for model training**
 
     SURGE optimization (ie. learning the SURGE latent contexts) requires an input expression matrix and genotype matrix. Both matrices should be of dimension NXT, where N is the number of RNA samples and T is the number of genome-wide independent variant gene pairs (ie. the number of eqtl tests). It is up to the user to select which variant-gene pairs to be used for model training. In general, we desire each variant-gene pair used in model training to be independent of one another because we want the SURGE to capture eQTL patterns that are persistent across the genome, not specific to a single gene or variant. Furthermore, it has been shown that standard eQTLs are more likely to be context-specific eqtls than random variant-gene pairs. Based on these two pieces of information, we recommned the following procedure for selecting variant-gene pairs for model training:
 
    - Run standard eQTL analysis on your full data set. Assess genome-wide significance of this analysis according to a gene-level Bonferonni correction, followed by a genome-wide Benjamini-Hochberg correction (or whatever multiple testing correction method you like).
    - Limit to eGenes (FDR < .05) and their top associated variant
-   - Take the top 2000 egenes and their top-associated variants as the variant-gene pairs for model training. Remove any variant-gene pairs where the variant is already mapped to another eGene.
-
-     Note: we recommend limiting to approximately 2000 variant-gene pairs for computational efficiency. 
+   - Take the top 2000 egenes and their top-associated variants as the variant-gene pairs for model training. Remove any variant-gene pairs where the variant is already mapped to another eGene. Note: we recommend limiting to approximately 2000 variant-gene pairs for computational efficiency. 
 
 
 2. Genotype matrix
