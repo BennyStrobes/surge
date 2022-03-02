@@ -20,15 +20,17 @@ SURGE is implemented as a python package. Read below for a minimum example of ho
 
 
 ### Python:
+To run :
 ```
-from cafeh.cafeh import fit_cafeh_genotype
-from cafeh.fitting import weight_ard_active_fit_procedure
+import surge.surge_inference
 
-# prepare inputs for cafeh
+# prepare inputs for SURGE
 ...
 
 # initialize and fit model
-cafehg = fit_cafeh_genotype(X, y, K=10)
+
+surge_obj = surge.surge_inference.SURGE_VI(K=20, max_iter=3000, re_boolean=True, delta_elbo_threshold=1e-2)
+surge_obj.fit(G=G, Y=Y, z=Z, cov=cov)
 
 # downstream analysis of model fitting
 ...
