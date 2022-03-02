@@ -65,7 +65,15 @@ surge_obj.fit(G=G, Y=Y, cov=cov)
    - Take the top 2000 egenes and their top-associated variants as the variant-gene pairs for model training. Remove any variant-gene pairs where the variant is already mapped to another eGene. Note: we recommend limiting to approximately 2000 variant-gene pairs for computational efficiency. 
 
 
-2. Genotype matrix
+**2. Standardized Genotype Matrix (G)**
+
+   After completing the step 1, you should have generated a set of variant-gene pairs used for model training. Now, you need create a 2-dimensional numpy array (G) that contains genotype information for those variant-gene pairs. G should be of dimension NXT where N is the number of RNA samples and T is the number of variant-gene pairs. A column of G reflects standardized genotype of a variant corresponding to a particular variant gene pair. We expect G to be standardized, meaning each column has mean 0 and variance 1.
+
+**2. Standardized Expression Matrix (Y)**
+
+   After completing the step 1, you should have generated a set of variant-gene pairs used for model training. Now, you need create a 2-dimensional numpy array (Y) that contains expression information for those variant-gene pairs. Y should be of dimension NXT where N is the number of RNA samples and T is the number of variant-gene pairs. A column of Y reflects the standardized expression of the gene corresponding to a particular variant-gene pair. We expect Y to be standardized, meaning each column has mean 0 and variance 1.
+
+   
 
 
 
