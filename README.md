@@ -86,7 +86,7 @@ surge_obj.fit(G=G, Y=Y, cov=cov)
 
 **1. K**
     
-    K is an integer that specifies the initial number of latent contexts. SURGE performs model selection by removing irrelevent contexts during optimization. This only works if K is set to be larger than the number of underlying latent contexts. In practice, setting `K=20` is a reasonable size. If SURGE converges, and all 20 latent contexts have PVE >= 1e-4, try setting K to be larger.
+   K is an integer that specifies the initial number of latent contexts. SURGE performs model selection by removing irrelevent contexts during optimization. This only works if K is set to be larger than the number of underlying latent contexts. In practice, setting `K=20` is a reasonable size. If SURGE converges, and all 20 latent contexts have PVE >= 1e-4, try setting K to be larger.
 
 **2. max_iter**
     
