@@ -2,6 +2,7 @@
 
 This repository contains code for fitting and plotting results of the SURGE model. SURGE is a a probabilistic model that attempts to uncover context specific expression quantitative trait loci (eQTLs) withouth pre-specifying contexts of interest. SURGE achieves this goal by jointly learning unobserved contexts as well as the as the eQTL effects izes corresponding to those contexts in an unsupervised fashion. 
 
+Contact Ben Strober (bstrober3@gmail.com) with any questions.
 
 
 ## Install
