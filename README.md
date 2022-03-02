@@ -69,11 +69,19 @@ surge_obj.fit(G=G, Y=Y, cov=cov)
 
    After completing the step 1, you should have generated a set of variant-gene pairs used for model training. Now, you need create a 2-dimensional numpy array (G) that contains genotype information for those variant-gene pairs. G should be of dimension NXT where N is the number of RNA samples and T is the number of variant-gene pairs. A column of G reflects standardized genotype of a variant corresponding to a particular variant gene pair. We expect G to be standardized, meaning each column has mean 0 and variance 1.
 
-**2. Standardized Expression Matrix (Y)**
+**3. Standardized Expression Matrix (Y)**
 
    After completing the step 1, you should have generated a set of variant-gene pairs used for model training. Now, you need create a 2-dimensional numpy array (Y) that contains expression information for those variant-gene pairs. Y should be of dimension NXT where N is the number of RNA samples and T is the number of variant-gene pairs. A column of Y reflects the standardized expression of the gene corresponding to a particular variant-gene pair. We expect Y to be standardized, meaning each column has mean 0 and variance 1.
 
-   
+**4. Covariate matrix (cov)**
+
+   You need create a 2-dimensional numpy array (cov) that contains covariates you wish to control for in your eQTL analysis. Standard covariates to include are expression pcs (or peer factors), genotype PCs, age, sex, batch, etc. cov should be of dimension NXL where N is the number of RNA samples and L is the number of covariates. One of the columns must be a column of ones corresponding to the intercept.
+
+**5. Sample repeat array (z)**
+
+   If you wish to control for sample repeat structure in your data, you need create a 1-dimensional numpy array (z) that contains the sample repeat structure present in your data. Specifically, z should be an array of length N where N is the numnber of samples. Each element of z should be an integer corresponding to which individual that RNA sample came from. For example `z = np.asarray[0, 0, 1, 1]` means you have expression data from 4 RNA samples and the first two RNA samples came from the same individual and the last two RNA samples came from the same individual.
+ 
+
 
 
 
