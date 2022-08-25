@@ -5,6 +5,7 @@ import scipy.special as special
 from sklearn.linear_model import LinearRegression
 import time
 import sklearn.decomposition
+from joblib import Parallel, delayed
 
 
 def run_linear_model_for_initialization(Y, G, cov, z):
@@ -239,7 +240,7 @@ def outside_update_tau_t(tau_alpha, tau_beta, G_slice, G_fe_slice, Y_slice, N, U
 
 
 class SURGE_VI(object):
-	def __init__(self, K=20, alpha=1e-3, beta=1e-3, ard_alpha=1e-3, ard_beta=1e-3, gamma_v=1.0, max_iter=1000, delta_elbo_threshold=1e-2, warmup_iterations=5, re_boolean=False, verbose=False, output_root=''):
+	def __init__(self, K=20, alpha=1e-3, beta=1e-3, ard_alpha=1e-3, ard_beta=1e-3, gamma_v=1.0, max_iter=1000, delta_elbo_threshold=1e-2, parallel_boolean=False, n_parallel_cores=20, warmup_iterations=5, re_boolean=False, verbose=False, output_root=''):
 		# Prior on gamma distributions defining residual variance and
 		self.alpha_prior = alpha
 		self.beta_prior = beta
@@ -264,6 +265,10 @@ class SURGE_VI(object):
 		self.re_boolean = re_boolean
 		# Whether or not to be verbose about optimization
 		self.verbose = verbose
+		# Whether to utilize multiple cores and take advantage of parallel updates
+		self.parallel_boolean = parallel_boolean
+		# If self.parallel_boolean == True, specify number of cores to utilize
+		self.n_parallel_cores = n_parallel_cores
 	def fit(self, G, Y, cov, G_fe=None, z=None):
 		""" Fit the model.
 			Args:
@@ -314,34 +319,43 @@ class SURGE_VI(object):
 			print('Variational Inference iteration: ' + str(vi_iter))
 			start_time = time.time()
 			# Update parameter estimaters via coordinate ascent
+			aa = time.time()
 			self.update_U()
+			bb = time.time()
 			self.update_V()
+			cc = time.time()
 			# Only run alpha update if fitting random effects intercept to model sample repeat structure (re_boolean==True)
 			if self.re_boolean:
 				self.update_alpha()
+			dd = time.time()
 			self.update_C()
+			ee = time.time()
 			self.update_F()
+			ff = time.time()
 			# Only run gammaU update after X warmup iterations (X=self.warmup_iterations)
 			if vi_iter >= self.warmup_iterations: 
 				self.update_gamma_U()
 			# Only run psi update if fitting random effects intercept to model sample repeat structure (re_boolean==True)
 			if self.re_boolean:
 				self.update_psi()
+			gg = time.time()
 			self.update_tau()
+			hh = time.time()
 			self.iter = self.iter + 1
 
 			#####################
 			# Compute Genetic PVE
 			self.shared_genetic_pve, self.factor_genetic_pve = self.compute_variance_explained_of_factors('genetic_pve')
 			self.shared_pve, self.factor_pve = self.compute_variance_explained_of_factors('pve')
-			
+			ii = time.time()
 
 			####################
 			# Compute ELBO after update
 			self.update_elbo()
+			kk = time.time()
 			current_elbo = self.elbo[len(self.elbo)-1]
 			delta_elbo = (current_elbo - self.elbo[len(self.elbo)-2])
-			
+			pdb.set_trace()
 			####################
 			# Print change in elbo
 			print('delta ELBO: ' + str(delta_elbo))
