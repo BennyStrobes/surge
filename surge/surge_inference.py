@@ -5,7 +5,6 @@ import scipy.special as special
 from sklearn.linear_model import LinearRegression
 import time
 import sklearn.decomposition
-from joblib import Parallel, delayed
 
 
 def run_linear_model_for_initialization(Y, G, cov, z):
@@ -319,50 +318,38 @@ class SURGE_VI(object):
 			print('Variational Inference iteration: ' + str(vi_iter))
 			start_time = time.time()
 			# Update parameter estimaters via coordinate ascent
-			aa = time.time()
 			self.update_U()
-			bb = time.time()
 			self.update_V()
-			cc = time.time()
 			# Only run alpha update if fitting random effects intercept to model sample repeat structure (re_boolean==True)
 			if self.re_boolean:
 				self.update_alpha()
-			dd = time.time()
 			self.update_C()
-			ee = time.time()
 			self.update_F()
-			ff = time.time()
 			# Only run gammaU update after X warmup iterations (X=self.warmup_iterations)
 			if vi_iter >= self.warmup_iterations: 
 				self.update_gamma_U()
 			# Only run psi update if fitting random effects intercept to model sample repeat structure (re_boolean==True)
 			if self.re_boolean:
 				self.update_psi()
-			gg = time.time()
 			self.update_tau()
-			hh = time.time()
 			self.iter = self.iter + 1
 
 			#####################
 			# Compute Genetic PVE
 			self.shared_genetic_pve, self.factor_genetic_pve = self.compute_variance_explained_of_factors('genetic_pve')
 			self.shared_pve, self.factor_pve = self.compute_variance_explained_of_factors('pve')
-			ii = time.time()
 
 			####################
 			# Compute ELBO after update
 			self.update_elbo()
-			kk = time.time()
 			current_elbo = self.elbo[len(self.elbo)-1]
 			delta_elbo = (current_elbo - self.elbo[len(self.elbo)-2])
-			pdb.set_trace()
 			####################
 			# Print change in elbo
 			print('delta ELBO: ' + str(delta_elbo))
 
 			####################
 			# Print things if we are being verbose
-			end_time = time.time()
 			if self.verbose:
 				self.verbose_printing(start_time, end_time, vi_iter)
 
